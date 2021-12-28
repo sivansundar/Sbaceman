@@ -51,11 +51,6 @@ private fun NavHostSetup(navController: NavHostController, modifier: Modifier) {
             HomeScreen()
         }
 
-        composable(Screen.Search.route) {
-            //Search composable
-            SearchScreen()
-        }
-
         composable(Screen.Reminders.route) {
             //Favourites composable
             RemindersScreen()
@@ -68,15 +63,12 @@ fun BottomBar(navController: NavController) {
 
     val items = listOf(
         Screen.Home,
-        Screen.Search,
         Screen.Reminders
     )
 
     BottomNavigation(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp)
-            .clip(RoundedCornerShape(18.dp)),
+            .fillMaxWidth(),
         elevation = 5.dp
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()

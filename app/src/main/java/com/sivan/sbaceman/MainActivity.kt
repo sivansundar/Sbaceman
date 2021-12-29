@@ -48,7 +48,9 @@ private fun NavHostSetup(navController: NavHostController, modifier: Modifier) {
     NavHost(navController = navController, startDestination = "home", modifier = modifier) {
         composable(Screen.Home.route) {
             //Home composable
-            HomeScreen()
+            HomeScreen(
+                modifier = Modifier.fillMaxSize().padding(12.dp)
+            )
         }
 
         composable(Screen.Reminders.route) {

@@ -6,8 +6,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -17,17 +21,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.sivan.sbaceman.ui.theme.SbacemanTheme
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(modifier: Modifier) {
     Box(modifier = modifier) {
-        Column(modifier = Modifier.align(Alignment.Center)) {
+        Column(modifier = Modifier.align(Alignment.TopCenter)) {
 
             SearchBar(
                 modifier = Modifier
@@ -41,6 +48,13 @@ fun HomeScreen(modifier: Modifier) {
                 onSearchButtonClicked = {
 
                 })
+
+            Spacer(modifier = Modifier.height(24.dp))
+            SpaceItem(modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp), onSpaceClicked = {
+
+            })
         }
     }
 }
@@ -132,13 +146,17 @@ fun SpaceTypeChipPreview(
 }
 
 @Composable
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun SpaceItemPreview() {
-    SpaceItem(modifier = Modifier
-        .fillMaxWidth()
-        .height(250.dp), onSpaceClicked = {
+    SbacemanTheme(isDark = true) {
+        SpaceItem(modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+            .clip(RoundedCornerShape(topEnd = 20.dp)), onSpaceClicked = {
 
-    })
+        })
+    }
+
 }
 
 @Composable
@@ -148,14 +166,46 @@ fun SpaceItem(
 ) {
     Card(modifier = modifier.clickable {
         onSpaceClicked("Space name")
-    }, backgroundColor = MaterialTheme.colorScheme.surfaceVariant) {
+    }, backgroundColor = MaterialTheme.colorScheme.secondaryContainer) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (title, footer) = createRefs()
+            val (title, participants, hostedBy, timings, footer) = createRefs()
 
-            Text(text = "Open sourcing 101", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold), modifier = Modifier.constrainAs(title){
-                top.linkTo(parent.top, margin = 20.dp)
-                start.linkTo(parent.absoluteLeft, margin = 20.dp)
-            })
+            Text(
+                text = "filmmaking NFTs + chill w| @victoriaklover & @chillseason \uD83C\uDFA5✨ 002 asd as asd asd as",
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(title) {
+                        top.linkTo(parent.top, margin = 20.dp)
+                        start.linkTo(parent.absoluteLeft, margin = 20.dp)
+                    })
+
+            SpaceTimings(modifier = Modifier
+                .wrapContentSize()
+                .constrainAs(timings) {
+                    bottom.linkTo(footer.top)
+                    absoluteLeft.linkTo(parent.absoluteLeft)
+                }
+                .padding(horizontal = 20.dp, vertical = 12.dp), time = "08:00 PM, Jan 04th 2022")
+
+//            HostedBy(modifier = Modifier
+//                .wrapContentSize()
+//                .constrainAs(hostedBy) {
+//                    bottom.linkTo(timings.top)
+//                    absoluteLeft.linkTo(parent.absoluteLeft)
+//                }
+//                .padding(horizontal = 20.dp, vertical = 12.dp), hostedBy = "Sivan")
+
+            ParticipantCount(modifier = Modifier
+                .constrainAs(participants) {
+                    bottom.linkTo(footer.top)
+                    absoluteRight.linkTo(parent.absoluteRight)
+
+                }
+                .padding(horizontal = 20.dp, vertical = 12.dp))
 
             Footer(modifier = Modifier
                 .fillMaxWidth()
@@ -163,14 +213,67 @@ fun SpaceItem(
                 .constrainAs(footer) {
                     bottom.linkTo(parent.bottom)
                 }
-                .background(color = MaterialTheme.colorScheme.onSurfaceVariant) )
+                .background(color = MaterialTheme.colorScheme.onSurfaceVariant))
 
         }
     }
 }
 
 @Composable
-fun Footer(modifier: Modifier){
+fun SpaceTimings(modifier: Modifier, time: String) {
+    Row(modifier = modifier) {
+        Text(
+            text = "Starts at",
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = time,
+            style = MaterialTheme.typography.labelMedium.copy(
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        )
+    }
+}
+
+@Composable
+fun HostedBy(modifier: Modifier, hostedBy: String) {
+    Row(modifier = modifier) {
+        Text(
+            text = "hosted by",
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = hostedBy,
+            style = MaterialTheme.typography.labelMedium.copy(
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        )
+    }
+}
+
+@Composable
+fun ParticipantCount(modifier: Modifier) {
+    Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceEvenly) {
+        Icon(imageVector = Icons.Rounded.Person, contentDescription = "Participant count")
+        Text(
+            text = "50",
+            style = MaterialTheme.typography.labelMedium.copy(
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        )
+
+    }
+}
+
+@Composable
+fun Footer(modifier: Modifier) {
     Row(modifier = modifier) {
 
     }

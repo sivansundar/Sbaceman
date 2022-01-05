@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -50,11 +51,48 @@ fun HomeScreen(modifier: Modifier) {
                 })
 
             Spacer(modifier = Modifier.height(24.dp))
-            SpaceItem(modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp), onSpaceClicked = {
 
-            })
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                item {
+                    SpaceItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                            .clip(
+                                RoundedCornerShape(
+                                    topEnd = 20.dp,
+                                    bottomEnd = 10.dp,
+                                    bottomStart = 10.dp,
+                                    topStart = 10.dp
+                                )
+                            ), onSpaceClicked = {
+
+                        },
+                        spaceStatus = "Live"
+                    )
+                }
+                item {
+                    SpaceItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                            .clip(
+                                RoundedCornerShape(
+                                    topEnd = 20.dp,
+                                    bottomEnd = 10.dp,
+                                    bottomStart = 10.dp,
+                                    topStart = 10.dp
+                                )
+                            ), onSpaceClicked = {
+
+                        },
+                        spaceStatus = "Scheduled"
+                    )
+                }
+            }
+
         }
     }
 }
@@ -114,47 +152,41 @@ fun SearchBarPreview() {
 
 @Composable
 fun SpaceTypeChip(
-    type: String,
-    onExecuteTypeChange: (String) -> Unit
+    modifier: Modifier,
+    type: String
 ) {
     Surface(
-        modifier = Modifier
-            .wrapContentSize()
-            .clip(CircleShape),
+        modifier = modifier,
         shadowElevation = 8.dp,
         tonalElevation = 8.dp,
-        color = MaterialTheme.colorScheme.secondary
+        color = if (type == "Live") {
+            MaterialTheme.colorScheme.tertiary
+        } else MaterialTheme.colorScheme.secondary
     ) {
-        Row(modifier = Modifier
-            .clickable { onExecuteTypeChange(type) }) {
+        Row(horizontalArrangement = Arrangement.Center) {
             Text(
                 text = type,
                 modifier = Modifier.padding(8.dp),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
             )
         }
     }
 }
 
-@Composable
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
-fun SpaceTypeChipPreview(
-) {
-    SpaceTypeChip(type = "Scheduled") {
-
-    }
-}
 
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun SpaceItemPreview() {
     SbacemanTheme(isDark = true) {
-        SpaceItem(modifier = Modifier
-            .fillMaxWidth()
-            .height(250.dp)
-            .clip(RoundedCornerShape(topEnd = 20.dp)), onSpaceClicked = {
+        SpaceItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
+                .clip(RoundedCornerShape(topEnd = 20.dp)), onSpaceClicked = {
 
-        })
+            },
+            spaceStatus = "Live"
+        )
     }
 
 }
@@ -162,16 +194,17 @@ fun SpaceItemPreview() {
 @Composable
 fun SpaceItem(
     modifier: Modifier,
-    onSpaceClicked: (String) -> Unit
+    onSpaceClicked: (String) -> Unit,
+    spaceStatus: String
 ) {
     Card(modifier = modifier.clickable {
         onSpaceClicked("Space name")
     }, backgroundColor = MaterialTheme.colorScheme.secondaryContainer) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (title, participants, hostedBy, timings, footer) = createRefs()
+            val (title, participants, spaceType, hostedBy, timings, footer) = createRefs()
 
             Text(
-                text = "filmmaking NFTs + chill w| @victoriaklover & @chillseason \uD83C\uDFA5✨ 002 asd as asd asd as",
+                text = "filmmaking NFTs + chill ad asd asd as",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -179,25 +212,35 @@ fun SpaceItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .constrainAs(title) {
-                        top.linkTo(parent.top, margin = 20.dp)
-                        start.linkTo(parent.absoluteLeft, margin = 20.dp)
-                    })
+                        top.linkTo(spaceType.bottom)
+                        start.linkTo(parent.absoluteLeft)
+                        absoluteRight.linkTo(parent.absoluteRight)
+                    }
+                    .padding(top = 10.dp, bottom = 20.dp, start = 20.dp, end = 20.dp))
+
+            SpaceTypeChip(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(topEnd = 20.dp))
+                    .constrainAs(spaceType) {
+                        absoluteRight.linkTo(parent.absoluteRight)
+                    }, type = spaceStatus)
 
             SpaceTimings(modifier = Modifier
                 .wrapContentSize()
                 .constrainAs(timings) {
+                    bottom.linkTo(hostedBy.top)
+                    absoluteLeft.linkTo(parent.absoluteLeft)
+                }
+                .padding(horizontal = 20.dp, vertical = 8.dp), time = "08:00 PM, Jan 04th 2022")
+
+            HostedBy(modifier = Modifier
+                .wrapContentSize()
+                .constrainAs(hostedBy) {
                     bottom.linkTo(footer.top)
                     absoluteLeft.linkTo(parent.absoluteLeft)
                 }
-                .padding(horizontal = 20.dp, vertical = 12.dp), time = "08:00 PM, Jan 04th 2022")
-
-//            HostedBy(modifier = Modifier
-//                .wrapContentSize()
-//                .constrainAs(hostedBy) {
-//                    bottom.linkTo(timings.top)
-//                    absoluteLeft.linkTo(parent.absoluteLeft)
-//                }
-//                .padding(horizontal = 20.dp, vertical = 12.dp), hostedBy = "Sivan")
+                .padding(start = 20.dp, bottom = 12.dp), hostedBy = "Sivan")
 
             ParticipantCount(modifier = Modifier
                 .constrainAs(participants) {
@@ -210,6 +253,10 @@ fun SpaceItem(
             Footer(modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
+                .clickable {
+                    // If type is Live -> Take me to space
+                    // If scheduled -> set reminder
+                }
                 .constrainAs(footer) {
                     bottom.linkTo(parent.bottom)
                 }
@@ -274,7 +321,14 @@ fun ParticipantCount(modifier: Modifier) {
 
 @Composable
 fun Footer(modifier: Modifier) {
-    Row(modifier = modifier) {
-
+    Box(modifier = modifier) {
+        Text(
+            text = "REMIND ME",
+            modifier = Modifier.align(Alignment.Center),
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.surface
+            )
+        )
     }
 }

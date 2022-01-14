@@ -36,7 +36,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(modifier: Modifier) {
     Box(modifier = modifier) {

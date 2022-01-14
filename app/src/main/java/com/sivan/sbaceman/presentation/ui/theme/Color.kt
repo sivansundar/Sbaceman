@@ -1,4 +1,4 @@
-package com.sivan.sbaceman.ui.theme
+package com.sivan.sbaceman.presentation.ui.theme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.material3.darkColorScheme

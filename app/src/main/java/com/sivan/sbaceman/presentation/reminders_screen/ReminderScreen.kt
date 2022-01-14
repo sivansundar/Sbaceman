@@ -1,4 +1,4 @@
-package com.sivan.sbaceman
+package com.sivan.sbaceman.presentation.reminders_screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme

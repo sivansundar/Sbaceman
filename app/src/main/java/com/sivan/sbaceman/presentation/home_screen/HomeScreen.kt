@@ -1,4 +1,4 @@
-package com.sivan.sbaceman
+package com.sivan.sbaceman.presentation.home_screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -22,18 +22,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.sivan.sbaceman.ui.theme.SbacemanTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sivan.sbaceman.domain.model.SearchOptions
+import com.sivan.sbaceman.domain.model.SearchParams
+import com.sivan.sbaceman.presentation.MainViewModel
+import com.sivan.sbaceman.presentation.ui.theme.SbacemanTheme
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(modifier: Modifier) {
+fun HomeScreen(modifier: Modifier, viewmodel : MainViewModel) {
+    val scope = rememberCoroutineScope()
+
     Box(modifier = modifier) {
         Column(modifier = Modifier.align(Alignment.TopCenter)) {
 

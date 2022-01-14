@@ -25,6 +25,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", BASE_URL
+            buildConfigField "String", "AUTH_TOKEN", AUTH_TOKEN
+
         }
     }
     compileOptions {
@@ -70,6 +79,21 @@ dependencies {
     //Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    //NetworkResponseAdapter
+    implementation "com.github.haroldadmin:NetworkResponseAdapter:$haroldNetworkRAVersion"
+
+    //OKHttp
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -3,16 +3,15 @@ package com.sivan.sbaceman
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -20,16 +19,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.sivan.sbaceman.ui.theme.SbacemanTheme
+import com.sivan.sbaceman.domain.model.SearchOptions
+import com.sivan.sbaceman.domain.model.SearchParams
+import com.sivan.sbaceman.presentation.MainViewModel
+import com.sivan.sbaceman.presentation.home_screen.HomeScreen
+import com.sivan.sbaceman.presentation.reminders_screen.RemindersScreen
+import com.sivan.sbaceman.presentation.ui.theme.SbacemanTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SbacemanTheme {
                 // A surface container using the 'background' color from the theme
+
                 val navController = rememberNavController()
                 Scaffold(
                     bottomBar = {
@@ -47,11 +53,16 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun NavHostSetup(navController: NavHostController, modifier: Modifier) {
+    val mainViewModel : MainViewModel = viewModel()
+
     NavHost(navController = navController, startDestination = "home", modifier = modifier) {
         composable(Screen.Home.route) {
             //Home composable
             HomeScreen(
-                modifier = Modifier.fillMaxSize().padding(12.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
+                viewmodel = mainViewModel
             )
         }
 

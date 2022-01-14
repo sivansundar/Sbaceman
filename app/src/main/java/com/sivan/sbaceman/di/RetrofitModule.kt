@@ -52,7 +52,7 @@ object RetrofitModule {
             .addInterceptor(httpLoggingInterceptor)
             .addNetworkInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                    .addHeader("Authorization", BuildConfig.AUTH_TOKEN)
+                    .addHeader("Authorization", "Bearer ${BuildConfig.AUTH_TOKEN}")
                 chain.proceed(request.build())
             }
             .build()

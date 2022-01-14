@@ -38,9 +38,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(modifier: Modifier, viewmodel : MainViewModel) {
-    val scope = rememberCoroutineScope()
-
+fun HomeScreen(modifier: Modifier) {
     Box(modifier = modifier) {
         Column(modifier = Modifier.align(Alignment.TopCenter)) {
 

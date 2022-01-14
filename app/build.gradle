@@ -8,6 +8,12 @@ plugins {
 android {
     compileSdk 31
 
+    // Load values from keystore.properties file
+    def keysPropertiesFile = rootProject.file("secrets.properties")
+    def keysProperties = new Properties()
+    keysProperties.load(new FileInputStream(keysPropertiesFile))
+
+
     defaultConfig {
         applicationId "com.sivan.sbaceman"
         minSdk 25
@@ -31,8 +37,8 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", BASE_URL
-            buildConfigField "String", "AUTH_TOKEN", AUTH_TOKEN
+            buildConfigField "String", "BASE_URL", keysProperties["BASE_URL"]
+            buildConfigField "String", "AUTH_TOKEN", keysProperties["AUTH_TOKEN"]
 
         }
     }

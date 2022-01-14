@@ -61,13 +61,10 @@ private fun NavHostSetup(navController: NavHostController, modifier: Modifier) {
             HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(12.dp),
-                viewmodel = mainViewModel
-            )
+                    .padding(12.dp))
         }
 
         composable(Screen.Reminders.route) {
-            //Favourites composable
             RemindersScreen()
         }
     }

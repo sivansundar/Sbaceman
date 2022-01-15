@@ -31,14 +31,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", keysProperties["BASEURL"]
+            buildConfigField "String", "AUTH_TOKEN", keysProperties["AUTHTOKEN"]
 
         }
 
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", keysProperties["BASE_URL"]
-            buildConfigField "String", "AUTH_TOKEN", keysProperties["AUTH_TOKEN"]
+            buildConfigField "String", "BASE_URL", keysProperties["BASEURL"]
+            buildConfigField "String", "AUTH_TOKEN", keysProperties["AUTHTOKEN"]
 
         }
     }

@@ -5,7 +5,6 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-
 val md_theme_light_primary = Color(0xFF4b53bc)
 val md_theme_light_onPrimary = Color(0xFFffffff)
 val md_theme_light_primaryContainer = Color(0xFFdfe0ff)
@@ -60,8 +59,6 @@ val md_theme_dark_inverseSurface = Color(0xFFe4e1e6)
 
 val seed = Color(0xFF3d45ae)
 val error = Color(0xFFba1b1b)
-
-
 
 val LightThemeColors = lightColorScheme(
 
@@ -119,7 +116,6 @@ val DarkThemeColors = darkColorScheme(
     inverseOnSurface = md_theme_dark_inverseOnSurface,
     inverseSurface = md_theme_dark_inverseSurface,
 )
-
 
 val DarkMD2Colors = darkColors(
     primary = DarkThemeColors.primary,

@@ -8,10 +8,9 @@ import com.sivan.sbaceman.domain.model.SearchOptions
 import com.sivan.sbaceman.domain.repository.SbacemanRepository
 import javax.inject.Inject
 
-
 class SbaceRepoImpl @Inject constructor(
-    private val api : SbacemanApi
-) : SbacemanRepository{
+    private val api: SbacemanApi
+) : SbacemanRepository {
 
     override suspend fun searchSpaces(searchOptions: SearchOptions): NetworkResponse<SpacesResponse, ErrorResponse> {
         return api.getSpaces(searchOptions)

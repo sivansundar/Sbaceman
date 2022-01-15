@@ -9,6 +9,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Create Secrets Properties File
+        run: touch secrets.properties
+
+      - name: Add secret auth token
+        run: echo "AUTHTOKEN=\""${{ secrets.AUTH_TOKEN }}"\"" >> secrets.properties
+
+      - name: Add base url
+        run: echo "BASEURL=\""${{ secrets.BASE_URL }}"\"" >> secrets.properties
+
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:

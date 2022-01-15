@@ -11,6 +11,5 @@ class SbacemanApp : Application() {
         super.onCreate()
 
         Timber.plant(Timber.DebugTree())
-
     }
 }

@@ -23,7 +23,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
@@ -34,17 +34,19 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideHttpLoggingInterceptor() : HttpLoggingInterceptor {
-        return HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
-            Timber.tag("OkHttp").d(it)
-        }).apply {
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor(
+            HttpLoggingInterceptor.Logger {
+                Timber.tag("OkHttp").d(it)
+            }
+        ).apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor) : OkHttpClient {
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .callTimeout(1, TimeUnit.MINUTES)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -70,8 +72,7 @@ object RetrofitModule {
     @Singleton
     fun providesSbaceRepoImpl(
         api: SbacemanApi
-    ) : SbacemanRepository {
+    ): SbacemanRepository {
         return SbaceRepoImpl(api)
     }
-
 }

@@ -7,6 +7,5 @@ import com.sivan.sbaceman.domain.model.SearchOptions
 
 interface SbacemanRepository {
 
-    suspend fun searchSpaces(searchOptions: SearchOptions) : NetworkResponse<SpacesResponse, ErrorResponse>
-
+    suspend fun searchSpaces(searchOptions: SearchOptions): NetworkResponse<SpacesResponse, ErrorResponse>
 }

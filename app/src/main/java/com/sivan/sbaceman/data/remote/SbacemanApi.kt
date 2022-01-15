@@ -14,5 +14,5 @@ import retrofit2.http.POST
 interface SbacemanApi {
 
     @POST("/v1/search")
-    suspend fun getSpaces(@Body searchparams : SearchOptions) : NetworkResponse<SpacesResponse, ErrorResponse>
+    suspend fun getSpaces(@Body searchparams: SearchOptions): NetworkResponse<SpacesResponse, ErrorResponse>
 }

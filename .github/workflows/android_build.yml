@@ -8,8 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Create Local Properties File
-        run: touch local.properties
+      - name: Create Secrets Properties File
+        run: touch secrets.properties
 
       - name: Add secret auth token
         run: echo "AUTHTOKEN=\""${{ secrets.AUTH_TOKEN }}"\"" >> secrets.properties

@@ -1,4 +1,4 @@
-package com.sivan.sbaceman.presentation.ui.theme
+package com.sivan.sbaceman.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

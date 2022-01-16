@@ -27,7 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sivan.sbaceman.presentation.home_screen.HomeScreen
 import com.sivan.sbaceman.presentation.reminders_screen.RemindersScreen
-import com.sivan.sbaceman.presentation.ui.theme.SbacemanTheme
+import com.sivan.sbaceman.ui.theme.SbacemanTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

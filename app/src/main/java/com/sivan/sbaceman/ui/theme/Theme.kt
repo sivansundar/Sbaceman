@@ -1,4 +1,4 @@
-package com.sivan.sbaceman.presentation.ui.theme
+package com.sivan.sbaceman.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

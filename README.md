@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to the S:b:aceman 👋</h1>
+<h1 align="center">Welcome to S:b:aceman 👋</h1>
 <p>
   <a href="https://twitter.com/sivansundar" target="_blank">
     <img alt="Twitter: sivansundar" src="https://img.shields.io/twitter/follow/sivansundar.svg?style=social" />

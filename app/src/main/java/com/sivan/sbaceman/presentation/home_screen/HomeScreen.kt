@@ -36,8 +36,6 @@ fun HomeScreen(modifier: Modifier) {
     }
 }
 
-
-
 @Composable
 fun Footer(modifier: Modifier) {
     Box(modifier = modifier) {

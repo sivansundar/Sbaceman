@@ -10,12 +10,12 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -83,7 +83,9 @@ fun BottomBar(navController: NavController) {
     BottomNavigation(
         modifier = Modifier
             .fillMaxWidth(),
-        elevation = 5.dp
+        elevation = 5.dp,
+        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -101,8 +103,6 @@ fun BottomBar(navController: NavController) {
                     )
                 },
                 selected = currentRoute == it.route,
-                selectedContentColor = Color.White,
-                unselectedContentColor = Color.White.copy(alpha = 0.4f),
                 onClick = {
                     navController.navigate(it.route) {
                         popUpTo(navController.graph.findStartDestination().id) {

@@ -11,17 +11,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sivan.sbaceman.presentation.home_screen.components.SearchBar
+import com.sivan.sbaceman.presentation.home_screen.components.SpaceTypeChipGroup
 
 @Composable
 fun HomeScreen(modifier: Modifier) {
     Column(modifier = modifier) {
 
+        var selectedType by remember {
+            mutableStateOf("")
+        }
         Icon(
             imageVector = Icons.Rounded.SignalCellular4Bar, contentDescription = "Rocket",
             modifier = Modifier
@@ -38,6 +44,13 @@ fun HomeScreen(modifier: Modifier) {
         SearchBar(
             modifier = Modifier.padding(bottom = 18.dp),
             hint = "Search for a space"
+        )
+
+        SpaceTypeChipGroup(
+            selectedCar = selectedType,
+            onSelectedChanged = {
+                selectedType = it
+            }
         )
     }
 }

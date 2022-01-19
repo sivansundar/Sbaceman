@@ -1,6 +1,5 @@
 package com.sivan.sbaceman.presentation.home_screen
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -66,20 +65,6 @@ fun HeaderText(modifier: Modifier, title: String, description: String) {
         Text(
             text = description,
             style = MaterialTheme.typography.bodyMedium,
-        )
-    }
-}
-
-@Composable
-fun Footer(modifier: Modifier) {
-    Box(modifier = modifier) {
-        Text(
-            text = "REMIND ME",
-            modifier = Modifier.align(Alignment.Center),
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.surface
-            )
         )
     }
 }

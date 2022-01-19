@@ -1,11 +1,11 @@
 package com.sivan.sbaceman.data.remote.dto
 
 data class SpacesResponse(
-    val `data`: Data,
+    val `data`: SpaceResult,
     val status: Int
 )
 
-data class Data(
+data class SpaceResult(
     val space_data: List<SpaceData>,
     val users: List<User>
 )

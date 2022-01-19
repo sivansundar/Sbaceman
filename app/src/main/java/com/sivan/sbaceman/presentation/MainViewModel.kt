@@ -3,15 +3,19 @@ package com.sivan.sbaceman.presentation
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.sivan.sbaceman.data.remote.dto.ErrorResponse
 import com.sivan.sbaceman.data.remote.dto.SpaceData
 import com.sivan.sbaceman.data.remote.dto.SpacesResponse
 import com.sivan.sbaceman.domain.model.SearchOptions
 import com.sivan.sbaceman.domain.usecases.SearchSpaceUseCase
+import com.sivan.sbaceman.ui.viewstate.HomeViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,28 +23,44 @@ class MainViewModel @Inject constructor(
     private val searchSpaceUseCase: SearchSpaceUseCase
 ) : ViewModel() {
 
+    private val _viewState: MutableStateFlow<HomeViewState> =
+        MutableStateFlow(HomeViewState.Initial)
+    val viewState: StateFlow<HomeViewState> = _viewState
+
     val spaces: MutableState<List<SpaceData>> = mutableStateOf(listOf())
 
-    suspend fun searchSpaces(searchOptions: SearchOptions) {
-        val data = searchSpaceUseCase.invoke(searchOptions = searchOptions).collect {
-            handleResult(it)
+    fun searchSpaces(searchOptions: SearchOptions) {
+        _viewState.value = HomeViewState.Submitted
+        viewModelScope.launch {
+            searchSpaceUseCase.invoke(searchOptions = searchOptions).collect {
+                handleResult(it)
+            }
         }
     }
 
     private fun handleResult(data: NetworkResponse<SpacesResponse, ErrorResponse>) {
-        when (data) {
+        _viewState.value = when (data) {
             is NetworkResponse.Success -> {
-                // spaces.value = data.body.data
-                Timber.d("Data : Data $data")
+                HomeViewState.Success(
+                    result = data.body.data
+                )
             }
+
             is NetworkResponse.ServerError -> {
-                Timber.d("Error : Server Error ${data.body?.message}")
+                HomeViewState.SearchError(
+                    errorMessage = data.body?.message.toString()
+                )
             }
+
             is NetworkResponse.NetworkError -> {
-                Timber.d("Error : NetworkError ${data.error.message}")
+                HomeViewState.SearchError(
+                    errorMessage = data.error.message.toString()
+                )
             }
             is NetworkResponse.UnknownError -> {
-                Timber.d("Error : UnknownError $data")
+                HomeViewState.SearchError(
+                    errorMessage = data.error.message.toString()
+                )
             }
         }
     }

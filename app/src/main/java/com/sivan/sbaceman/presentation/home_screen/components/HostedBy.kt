@@ -1,30 +1,47 @@
 package com.sivan.sbaceman.presentation.home_screen.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.sivan.sbaceman.R
 
 @Composable
-fun HostedBy(modifier: Modifier, hostedBy: String) {
+fun HostedBy() {
+    androidx.compose.material3.Surface(
+        modifier = Modifier.padding(horizontal = 5.dp).size(40.dp),
+        shape = CircleShape,
+        border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.onSurface)
+    ) {
+        Image(
+            painterResource(id = R.drawable.user_image),
+            contentDescription = "User image",
+            contentScale = ContentScale.Crop
+        )
+    }
+}
+
+@Composable
+@Preview
+fun HostedByPreview() {
+    HostedByContainer(modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
+fun HostedByContainer(modifier: Modifier) {
     Row(modifier = modifier) {
-        Text(
-            text = "hosted by",
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onSecondaryContainer
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(
-            text = hostedBy,
-            style = MaterialTheme.typography.labelMedium.copy(
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
-            )
-        )
+        HostedBy()
+        HostedBy()
+        HostedBy()
     }
 }

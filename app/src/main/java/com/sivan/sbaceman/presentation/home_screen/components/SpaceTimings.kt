@@ -17,6 +17,6 @@ fun SpaceTimings(modifier: Modifier, time: String) {
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             ),
 
-            )
+        )
     }
 }

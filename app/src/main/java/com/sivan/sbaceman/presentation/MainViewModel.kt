@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,13 +25,13 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _viewState: MutableStateFlow<HomeViewState> =
-        MutableStateFlow(HomeViewState.Initial)
+        MutableStateFlow(HomeViewState.INITIAL)
     val viewState: StateFlow<HomeViewState> = _viewState
 
     val spaces: MutableState<List<SpaceData>> = mutableStateOf(listOf())
 
     fun searchSpaces(searchOptions: SearchOptions) {
-        _viewState.value = HomeViewState.Submitted
+        _viewState.value = HomeViewState.LOADING
         viewModelScope.launch {
             searchSpaceUseCase.invoke(searchOptions = searchOptions).collect {
                 handleResult(it)
@@ -41,25 +42,25 @@ class MainViewModel @Inject constructor(
     private fun handleResult(data: NetworkResponse<SpacesResponse, ErrorResponse>) {
         _viewState.value = when (data) {
             is NetworkResponse.Success -> {
-                HomeViewState.Success(
-                    result = data.body.data
+                HomeViewState.SUCCESS(
+                    data = data.body.data
                 )
             }
 
             is NetworkResponse.ServerError -> {
-                HomeViewState.SearchError(
-                    errorMessage = data.body?.message.toString()
+                HomeViewState.FAILURE(
+                    error = data.body?.message.toString()
                 )
             }
 
             is NetworkResponse.NetworkError -> {
-                HomeViewState.SearchError(
-                    errorMessage = data.error.message.toString()
+                HomeViewState.FAILURE(
+                    error = data.error.message.toString()
                 )
             }
             is NetworkResponse.UnknownError -> {
-                HomeViewState.SearchError(
-                    errorMessage = data.error.message.toString()
+                HomeViewState.FAILURE(
+                    error = data.error.message.toString()
                 )
             }
         }

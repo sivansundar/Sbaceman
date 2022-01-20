@@ -7,7 +7,11 @@ data class SpacesResponse(
 
 data class SpaceResult(
     val space_data: List<SpaceData>,
-    val users: List<User>
+    val meta: Meta,
+)
+
+data class Meta(
+    val result_count: Int
 )
 
 data class SpaceData(
@@ -15,7 +19,9 @@ data class SpaceData(
     val id: String,
     val scheduled_start: String,
     val state: String,
-    val title: String
+    val title: String?,
+    val users: List<User>,
+
 )
 
 data class User(

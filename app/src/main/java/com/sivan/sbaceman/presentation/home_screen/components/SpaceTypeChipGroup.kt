@@ -21,24 +21,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sivan.sbaceman.Constants
 
 @Preview(showBackground = true)
 @Composable
 fun SpaceTypeChipGroup(
-    cars: List<String> = listOf("Live", "Scheduled"),
-    selectedCar: String? = null,
+    type: List<String> = listOf(Constants.LIVE, Constants.SCHEDULED),
+    selectedType: String? = null,
     onSelectedChanged: (String) -> Unit = {},
 ) {
     Column(modifier = Modifier.padding(8.dp)) {
         LazyRow(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            itemsIndexed(cars) { index, item ->
+            itemsIndexed(type) { index, item ->
                 SpaceChip(
                     name = item,
-                    isSelected = selectedCar == item,
+                    isSelected = selectedType == item,
                     onSelectionChanged = {
                         onSelectedChanged(it)
                     },
-                    chipColor = if (item == "Live") MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.secondaryContainer
+                    chipColor = if (item == Constants.LIVE) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.secondaryContainer
                 )
             }
         }

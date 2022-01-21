@@ -24,7 +24,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.sivan.sbaceman.Constants
 import com.sivan.sbaceman.data.remote.dto.SpaceData
-import timber.log.Timber
 
 @Composable
 fun SpaceCard(

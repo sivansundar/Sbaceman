@@ -81,6 +81,7 @@ fun SearchBar(
                         contentDescription = "Close",
                         modifier = Modifier.clickable {
                             focusManager.clearFocus()
+                            searchText = ""
                         }
                     )
                 }

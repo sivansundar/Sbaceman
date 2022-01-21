@@ -1,12 +1,12 @@
 package com.sivan.sbaceman.presentation.home_screen.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Button
@@ -17,97 +17,72 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
+import com.sivan.sbaceman.Constants
+import com.sivan.sbaceman.data.remote.dto.SpaceData
 
 @Composable
 fun SpaceCard(
     modifier: Modifier,
-    onSpaceClicked: (String) -> Unit
+    onSpaceClicked: (String) -> Unit,
+    spaceItem: SpaceData,
+    backgroundColor: Color
 ) {
 
     val spaceType by remember {
-        mutableStateOf("Scheduled")
+        mutableStateOf(spaceItem.state)
     }
     Card(
         modifier = modifier,
-        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+        backgroundColor = backgroundColor,
         border = BorderStroke(4.dp, color = MaterialTheme.colorScheme.tertiary),
         elevation = 4.dp,
         shape = RoundedCornerShape(16.dp)
     ) {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxSize()
-
-        ) {
-
-            val (title, participant_count, hosted_by, timings, footer) = createRefs()
+        Column(verticalArrangement = Arrangement.SpaceBetween) {
             Text(
-                text = "NFT Drop 2022",
+                text = spaceItem.title.toString(),
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 ),
                 modifier = Modifier
-                    .constrainAs(title) {
-
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    }
+                    .fillMaxWidth()
                     .padding(top = 20.dp, start = 20.dp, end = 20.dp),
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center
             )
 
             ParticipantCount(
-                modifier = Modifier.constrainAs(participant_count) {
-                    top.linkTo(title.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
+                modifier = Modifier.fillMaxWidth(),
             )
 
             HostedByContainer(
                 modifier = Modifier
-                    .constrainAs(hosted_by) {
-                        top.linkTo(participant_count.bottom)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        if (spaceType == "Scheduled") {
-                            bottom.linkTo(timings.top)
-                        } else {
-                            bottom.linkTo(footer.top)
-                        }
-                    }
-                    .wrapContentWidth()
+                    .fillMaxWidth(),
+                users = spaceItem.users
+
             )
 
-            if (spaceType == "Scheduled") {
+            if (spaceType == "scheduled") {
                 SpaceTimings(
                     modifier = Modifier
                         .wrapContentSize()
-                        .constrainAs(timings) {
-                            bottom.linkTo(footer.top)
-                            absoluteLeft.linkTo(parent.absoluteLeft)
-                            absoluteRight.linkTo(parent.absoluteRight)
-                        }
                         .padding(horizontal = 20.dp, vertical = 8.dp),
-                    time = "08:00 PM, Jan 04th 2022"
+                    time = spaceItem.scheduled_start
                 )
             }
 
             Footer(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp)
-                    .constrainAs(footer) {
-                        bottom.linkTo(parent.bottom)
-                    },
-                spaceType = "Live",
+                    .height(70.dp),
+                spaceType = spaceType,
                 onSpaceItemClicked = {
                     onSpaceClicked(it)
                 }
@@ -126,7 +101,7 @@ fun Footer(
         onSpaceItemClicked(spaceType)
     }) {
         Text(
-            text = "TAKE ME TO SPACE \uD83D\uDE80",
+            text = if (spaceType.equals(Constants.LIVE, ignoreCase = true)) "TAKE ME TO SPACE \uD83D\uDE80" else "REMIND ME",
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.surface

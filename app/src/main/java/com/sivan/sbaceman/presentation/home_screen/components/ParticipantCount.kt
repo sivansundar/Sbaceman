@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 fun ParticipantCount(modifier: Modifier) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
